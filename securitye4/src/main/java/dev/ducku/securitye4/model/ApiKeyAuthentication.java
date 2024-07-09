@@ -47,13 +47,13 @@ public class ApiKeyAuthentication implements Authentication {
 
     @Override
     public Object getPrincipal() {
-        return null;
+        return getName();
     }
 
 
     @Override
     public String getName() {
-        return "";
+        return key;
     }
 
     @Override

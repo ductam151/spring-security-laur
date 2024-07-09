@@ -38,8 +38,10 @@
         </dependency>
     </dependencies>
 
+
     <build>
         <plugins>
+            <!--This plugin is responsible for adding part of the default configurations you’ll observe in your project-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

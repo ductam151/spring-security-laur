@@ -1,6 +1,7 @@
 package dev.ducku.securitye4.config;
 
 import dev.ducku.securitye4.security.filter.ApiKeyAuthenticationFilter;
+import dev.ducku.securitye4.security.provider.KuAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,7 @@ public class ProjectConfig {
         return http
                 .httpBasic(Customizer.withDefaults())
                 .addFilterBefore(new ApiKeyAuthenticationFilter(key), BasicAuthenticationFilter.class)
+                .authenticationProvider(new KuAuthenticationProvider())
                 .authorizeRequests()
                 .anyRequest()
                 .authenticated()

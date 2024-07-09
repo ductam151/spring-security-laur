@@ -32,6 +32,7 @@ public class ApiKeyAuthenticationFilter extends OncePerRequestFilter {
 
         if ("null".equals(requestKey) || requestKey == null) {
             filterChain.doFilter(request, response);
+            return;
         }
 
         try {
@@ -39,11 +40,19 @@ public class ApiKeyAuthenticationFilter extends OncePerRequestFilter {
             if (authentication.isAuthenticated()) {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 filterChain.doFilter(request, response);
+                return;
             } else {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setCharacterEncoding("utf-8");
+                response.setHeader("Content-Type", "text/plain;charset=utf-8");
+                response.getWriter().println("You are not authenticated ⛔");
+
             }
         } catch (AuthenticationException e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setCharacterEncoding("utf-8");
+            response.setHeader("Content-Type", "text/plain;charset=utf-8");
+            response.getWriter().println("You are not authenticated ⛔");
         }
 
 

@@ -27,8 +27,6 @@ public class CustomAuthentication implements Authentication {
 
     }
 
-
-
     public String getKey() {
         return key;
     }

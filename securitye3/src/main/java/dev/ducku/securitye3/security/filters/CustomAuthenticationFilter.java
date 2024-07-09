@@ -6,6 +6,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -13,11 +14,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Component
+@Component                                      /*use this superclass to ensure that this filter only be called once*/
 public class CustomAuthenticationFilter extends OncePerRequestFilter {
-    private final CustomAuthenticationManager customAuthenticationManager;
+    private final AuthenticationManager customAuthenticationManager;
 
-    public CustomAuthenticationFilter(CustomAuthenticationManager customAuthenticationManager) {
+    public CustomAuthenticationFilter(AuthenticationManager customAuthenticationManager) {
         this.customAuthenticationManager = customAuthenticationManager;
     }
 
@@ -29,9 +30,9 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
         // 4. if the object is authenticated then send request to the next filter in the chain
 
         String key = String.valueOf(request.getHeader("key"));
-        CustomAuthentication customAuthentication = new CustomAuthentication(false, key);
-        Authentication authenticate = customAuthenticationManager.authenticate(customAuthentication);
-        if(authenticate.isAuthenticated()) {
+        /*1. */CustomAuthentication customAuthentication = new CustomAuthentication(false, key);
+        Authentication authenticate = customAuthenticationManager.authenticate(customAuthentication);/*2. */
+        if(authenticate.isAuthenticated()) { /*3. */
             SecurityContextHolder.getContext().setAuthentication(authenticate);
             filterChain.doFilter(request, response);
         }
