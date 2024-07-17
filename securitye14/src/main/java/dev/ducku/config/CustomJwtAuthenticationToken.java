@@ -10,8 +10,21 @@ public class CustomJwtAuthenticationToken extends JwtAuthenticationToken {
 
     private String customMessage;
 
-    public CustomJwtAuthenticationToken(Jwt jwt, Collection<? extends GrantedAuthority> authorities) {
+    private String priority;
+
+    public CustomJwtAuthenticationToken(Jwt jwt, Collection<? extends GrantedAuthority> authorities, String priority) {
         super(jwt, authorities);
+        this.priority = priority;
         customMessage = "🐱 🐶";
     }
+
+    public String getCustomMessage() {
+        return customMessage;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+
 }
